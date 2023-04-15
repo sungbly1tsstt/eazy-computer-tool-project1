@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--st改开始-->
+	<meta charset="utf-8">
+	<title>calc</title>
+	<!-- css -->
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background-color: #333;
+		}
+		
+		.box{
+			width: 300px;
+			height: 440px;
+			background-color: yellow;
+			margin: 100px auto;
+		}
+		.box h2{
+			line-height: 80px;
+			height: 80px;
+			background-color: #000000;
+			color: #FFFFFF;
+			text-align: center;
+		}
+		.box a{
+			display: block;
+			width: 73px;
+			height: 73px;
+			line-height: 73px;
+			text-align: center;
+			background-color: #111;
+			color: #FFFFFF;
+			border: 1px solid #F0F8FF;
+			float: left;
+			cursor:pointer;
+		}
+		.box a:hover{
+			background-color:#333333;
+			color: #FFFF00;
+		}
+		.box .sp{
+			width: 148px;
+		}
+		/* edit by st */
+		.TipsBar{
+			background: #111;
+			width: 300px;
+			border: 1px solid #FFFFFF;
+		}
+		.TipsText{
+			color: #FFFFFF;
+			text-align: left;
+		}
+		.maxblock{
+			display: block;
+			width: 300px;
+			height: 73px;
+			line-height: 73px;
+			text-align: center;
+			background-color: #111;
+			color: #FFFFFF;
+			border: 1px solid #F0F8FF;
+			float: left;
+			cursor:pointer;
+		}
+	</style>
+	<!-- css end -->
+	<script src="st cookie.js"></script>
+</head>
+<body>\
+	<!--st改开始-->
+	<div class="box">
+		<h2 id="result">结果</h2>
+		<a class="sp">AC</a>
+		<a class="sp">÷</a>
+		<a class="sp">记录</a>
+		<a class="sp">清除记录</a>
+		<a>7</a>
+		<a>8</a>
+		<a>9</a>
+		<a>×</a>
+		
+		<a>4</a>
+		<a>5</a>
+		<a>6</a>
+		<a>-</a>
+		
+		<a>1</a>
+		<a>2</a>
+		<a>3</a>
+		<a>+</a>
+		
+		<a>0</a>
+		<a>.</a>
+		<a class="sp">=</a>
+		<a class="maxblock">打开记录</a>
+		<div class="TipsBar">
+			<p class="TipsText">Tips:<br>·此计算器为单次计算器,单次只能计算一次。计算完请点击"AC"清零。</p>
+			<p class="TipsText">·先乘除，后加减!</p>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		var last = 0;//上次结果
+		var disk = 0;//cookie保存的数值
+		if(getCookie("disk") != 0){
+			disk = getCookie("disk");
+		}
+		//网上的屎山代码 st改
+		window.onload = function(){
+			var a_list = document.getElementsByTagName("a");
+			var result = document.getElementById("result");
+			var fu = "";
+			var num1 = "";
+			var num2 = "";
+			for(var i=0; i<a_list.length; i++){
+				a_list[i].onclick = function(){
+					// alert(this.innerHTML);
+					var key_value = this.innerHTML;
+					switch(key_value){
+						case "+":
+							fu = "+";
+							break;
+						case "-":
+							fu = "-";
+							break;
+						case "×":
+							fu = "×";
+							break;
+						case "÷":
+							fu = "÷"
+							break;
+						case "=":
+							var n1 = parseFloat(num1);
+							var n2 = parseFloat(num2);
+							switch(fu){
+								case "+":
+									result.innerHTML = n1 + n2;
+									break;
+								case "-":
+									result.innerHTML = n1 - n2;
+									break;
+								case "×":
+									result.innerHTML = n1 * n2;
+									break;
+								case "÷":
+									
+									result.innerHTML = n1 / n2;
+									break;
+							}
+							break;
+						case "AC":
+							result.innerHTML = "0";
+							fu = "";
+							num1 = "";
+							num2 = "";
+							break;
+						default:
+							if (fu == "") {
+								num1 = num1 += this.innerHTML;
+								result.innerHTML = num1;
+							} else{
+								num2 = num2 += this.innerHTML;
+								result.innerHTML = num2;
+							}
+							break;
+						case "记录":
+							var set;
+							set = prompt("你要保存什么数值?\n请输入数字!\n因不规范输入导致出现bug作者一律不负责!");
+							setCookie("disk",set,365);
+							break;
+						case "清除记录":
+							clearCookie("disk");
+							break;
+						case "打开记录":
+							result.innerHTML = getCookie("disk");
+							break;
+					}
+				}
+			}
+		}
+	</script>
+</body>
+</html>
